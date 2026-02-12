@@ -47,5 +47,5 @@ steps:
     deployToSlotOrASE: true
     resourceGroupName: 'rg-GitCICDPipline'
     slotName: 'production'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(System.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
