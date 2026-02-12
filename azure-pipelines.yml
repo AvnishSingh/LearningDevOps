@@ -24,7 +24,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(Build.ArtifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
@@ -39,13 +39,14 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
     azureSubscription: 'Azure subscription 1(a471679a-67b7-4abf-9137-59a8ad4601df)'
     appType: 'webApp'
-    appName: 'CICDPiplinefromGit'
+    WebAppName: 'CICDPiplinefromGit'
     deployToSlotOrASE: true
-    resourceGroupName: 'rg-GitCICDPipline'
-    slotName: 'production'
-    package: '$(Build.ArtifactStagingDirectory)/WebApp.zip'
-    deploymentMethod: 'auto'
+    ResourceGroupName: 'rg-GitCICDPipline'
+    SlotName: 'production'
+    Package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
